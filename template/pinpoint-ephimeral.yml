@@ -1,0 +1,403 @@
+kind: "Template"
+apiVersion: "v1"
+metadata:
+  name: "pinpoint APM"
+  annotations:
+    description: "Pinpoint APM tool for large-scale distributed systems"
+    tags: "pinpoint collector, HBase and pinpoint WebUI"
+    iconClass: "icon-java"
+objects:
+kind: DeploymentConfig
+metadata:
+  creationTimestamp: 2016-09-26T09:44:49Z
+  generation: 2
+  labels:
+    compose: tmp
+  name: pinpoint-hbase
+  namespace: pinpoint
+  resourceVersion: "1897"
+  selfLink: /oapi/v1/namespaces/pinpoint/deploymentconfigs/pinpoint-hbase
+  uid: de0a857f-83cd-11e6-8512-525400c583ad
+spec:
+  replicas: 1
+  selector:
+    deploymentconfig: pinpoint-hbase
+  strategy:
+    resources: {}
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        deploymentconfig: pinpoint-hbase
+    spec:
+      containers:
+      - image: naver/pinpoint-hbase:1.6.0-SNAPSHOT
+        imagePullPolicy: IfNotPresent
+        name: pinpoint-hbase
+        ports:
+        - containerPort: 2181
+          protocol: TCP
+        - containerPort: 16010
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+  test: false
+  triggers:
+  - type: ConfigChange
+  - imageChangeParams:
+      automatic: true
+      containerNames:
+      - pinpoint-hbase
+      from:
+        kind: ImageStreamTag
+        name: pinpoint-hbase:1.6.0-SNAPSHOT
+        namespace: pinpoint
+    type: ImageChange
+status:
+  latestVersion: 1
+  observedGeneration: 2
+kind: DeploymentConfig
+  metadata:
+    creationTimestamp: 2016-09-26T09:44:49Z
+    generation: 2
+    labels:
+      compose: tmp
+    name: pinpoint-mysql
+    namespace: pinpoint
+    resourceVersion: "1945"
+    selfLink: /oapi/v1/namespaces/pinpoint/deploymentconfigs/pinpoint-mysql
+    uid: de0e5936-83cd-11e6-8512-525400c583ad
+  spec:
+    replicas: 1
+    selector:
+      deploymentconfig: pinpoint-mysql
+    strategy:
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          deploymentconfig: pinpoint-mysql
+      spec:
+        containers:
+        - env:
+          - name: MYSQL_DATABASE
+            value: pinpoint
+          - name: MYSQL_PASSWORD
+            value: admin
+          - name: MYSQL_ROOT_PASSWORD
+            value: root123
+          - name: MYSQL_USER
+            value: admin
+          image: mysql@sha256:966490bda4576655dc940923c4883db68cca0b3607920be5efff7514e0379aa7
+          imagePullPolicy: IfNotPresent
+          name: pinpoint-mysql
+          ports:
+          - containerPort: 3306
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - pinpoint-mysql
+        from:
+          kind: ImageStreamTag
+          name: pinpoint-mysql:5.7
+          namespace: pinpoint
+        lastTriggeredImage: mysql@sha256:966490bda4576655dc940923c4883db68cca0b3607920be5efff7514e0379aa7
+      type: ImageChange
+  status:
+    availableReplicas: 1
+    details:
+      causes:
+      - imageTrigger:
+          from:
+            kind: ImageStreamTag
+            name: pinpoint-mysql:5.7
+            namespace: pinpoint
+        type: ImageChange
+      message: caused by an image change
+    latestVersion: 1
+    observedGeneration: 2
+    replicas: 1
+kind: DeploymentConfig
+    metadata:
+      creationTimestamp: 2016-09-26T09:44:49Z
+      generation: 2
+      labels:
+        compose: tmp
+      name: pinpoint-collector
+      namespace: pinpoint
+      resourceVersion: "1889"
+      selfLink: /oapi/v1/namespaces/pinpoint/deploymentconfigs/pinpoint-collector
+      uid: de074ed2-83cd-11e6-8512-525400c583ad
+    spec:
+      replicas: 1
+      selector:
+        deploymentconfig: pinpoint-collector
+      strategy:
+        resources: {}
+        rollingParams:
+          intervalSeconds: 1
+          maxSurge: 25%
+          maxUnavailable: 25%
+          timeoutSeconds: 600
+          updatePeriodSeconds: 1
+        type: Rolling
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            deploymentconfig: pinpoint-collector
+        spec:
+          containers:
+          - env:
+            - name: CLUSTER_ENABLE
+              value: "true"
+            - name: CLUSTER_ZOOKEEPER_ADDRESS
+              value: hbase
+            - name: COLLECTOR_TCP_PORT
+              value: "9994"
+            - name: COLLECTOR_UDP_SPAN_LISTEN_PORT
+              value: "9996"
+            - name: COLLECTOR_UDP_STAT_LISTEN_PORT
+              value: "9995"
+            - name: DISABLE_DEBUG
+              value: "true"
+            - name: HBASE_HOST
+              value: hbase
+            - name: HBASE_PORT
+              value: "2181"
+            image: naver/pinpoint-collector:1.6.0-SNAPSHOT
+            imagePullPolicy: IfNotPresent
+            name: pinpoint-collector
+            ports:
+            - containerPort: 9994
+              protocol: TCP
+            resources: {}
+            terminationMessagePath: /dev/termination-log
+          dnsPolicy: ClusterFirst
+          restartPolicy: Always
+          securityContext: {}
+          terminationGracePeriodSeconds: 30
+      test: false
+      triggers:
+      - type: ConfigChange
+      - imageChangeParams:
+          automatic: true
+          containerNames:
+          - pinpoint-collector
+          from:
+            kind: ImageStreamTag
+            name: pinpoint-collector:1.6.0-SNAPSHOT
+            namespace: pinpoint
+        type: ImageChange
+    status:
+      latestVersion: 1
+      observedGeneration: 2
+kind: DeploymentConfig
+      metadata:
+        creationTimestamp: 2016-09-26T09:44:49Z
+        generation: 2
+        labels:
+          compose: tmp
+        name: pinpoint-web
+        namespace: pinpoint
+        resourceVersion: "1893"
+        selfLink: /oapi/v1/namespaces/pinpoint/deploymentconfigs/pinpoint-web
+        uid: de12357c-83cd-11e6-8512-525400c583ad
+      spec:
+        replicas: 1
+        selector:
+          deploymentconfig: pinpoint-web
+        strategy:
+          resources: {}
+          rollingParams:
+            intervalSeconds: 1
+            maxSurge: 25%
+            maxUnavailable: 25%
+            timeoutSeconds: 600
+            updatePeriodSeconds: 1
+          type: Rolling
+        template:
+          metadata:
+            creationTimestamp: null
+            labels:
+              deploymentconfig: pinpoint-web
+          spec:
+            containers:
+            - env:
+              - name: ADMIN_PASSWORD
+                value: admin123
+              - name: CLUSTER_ENABLE
+                value: "true"
+              - name: CLUSTER_ZOOKEEPER_ADDRESS
+                value: hbase
+              - name: DISABLE_DEBUG
+                value: "true"
+              - name: HBASE_HOST
+                value: hbase
+              - name: HBASE_PORT
+                value: "2181"
+              - name: JDBC_DRIVER
+                value: com.mysql.jdbc.Driver
+              - name: JDBC_PASSWORD
+                value: admin
+              - name: JDBC_URL
+                value: jdbc:mysql://mysql:3306/pinpoint?characterEncoding=UTF-8
+              - name: JDBC_USERNAME
+                value: admin
+              image: naver/pinpoint-web:1.6.0-SNAPSHOT
+              imagePullPolicy: IfNotPresent
+              name: pinpoint-web
+              ports:
+              - containerPort: 8080
+                protocol: TCP
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+            dnsPolicy: ClusterFirst
+            restartPolicy: Always
+            securityContext: {}
+            terminationGracePeriodSeconds: 30
+        test: false
+        triggers:
+        - type: ConfigChange
+        - imageChangeParams:
+            automatic: true
+            containerNames:
+            - pinpoint-web
+            from:
+              kind: ImageStreamTag
+              name: pinpoint-web:1.6.0-SNAPSHOT
+              namespace: pinpoint
+          type: ImageChange
+      status:
+        latestVersion: 1
+        observedGeneration: 2
+kind: Service
+        metadata:
+          creationTimestamp: 2016-09-26T09:44:49Z
+          labels:
+            compose: tmp
+          name: hbase
+          namespace: pinpoint
+          resourceVersion: "1234"
+          selfLink: /api/v1/namespaces/pinpoint/services/hbase
+          uid: de226451-83cd-11e6-8512-525400c583ad
+        spec:
+          clusterIP: 172.30.24.167
+          portalIP: 172.30.24.167
+          ports:
+          - name: 2181-tcp
+            port: 2181
+            protocol: TCP
+            targetPort: 2181
+          - name: 16010-tcp
+            port: 16010
+            protocol: TCP
+            targetPort: 16010
+          selector:
+            deploymentconfig: pinpoint-hbase
+          sessionAffinity: None
+          type: ClusterIP
+        status:
+          loadBalancer: {}
+            apiVersion: v1
+kind: Service
+            metadata:
+              creationTimestamp: 2016-09-26T09:44:50Z
+              labels:
+                compose: tmp
+              name: mysql
+              namespace: pinpoint
+              resourceVersion: "1236"
+              selfLink: /api/v1/namespaces/pinpoint/services/mysql
+              uid: de2d5b03-83cd-11e6-8512-525400c583ad
+            spec:
+              clusterIP: 172.30.180.154
+              portalIP: 172.30.180.154
+              ports:
+              - name: 3306-tcp
+                port: 3306
+                protocol: TCP
+                targetPort: 3306
+              selector:
+                deploymentconfig: pinpoint-mysql
+              sessionAffinity: None
+              type: ClusterIP
+            status:
+              loadBalancer: {}
+kind: Service
+                metadata:
+                  creationTimestamp: 2016-09-26T09:44:49Z
+                  labels:
+                    compose: tmp
+                  name: pinpoint-collector
+                  namespace: pinpoint
+                  resourceVersion: "1231"
+                  selfLink: /api/v1/namespaces/pinpoint/services/pinpoint-collector
+                  uid: de1574c6-83cd-11e6-8512-525400c583ad
+                spec:
+                  clusterIP: 172.30.21.220
+                  portalIP: 172.30.21.220
+                  ports:
+                  - name: 9994-tcp
+                    port: 9994
+                    protocol: TCP
+                    targetPort: 9994
+                  selector:
+                    deploymentconfig: pinpoint-collector
+                  sessionAffinity: None
+                  type: ClusterIP
+                status:
+                  loadBalancer: {}
+kind: Service
+                    metadata:
+                      creationTimestamp: 2016-09-26T09:44:49Z
+                      labels:
+                        compose: tmp
+                      name: pinpoint-collector
+                      namespace: pinpoint
+                      resourceVersion: "1231"
+                      selfLink: /api/v1/namespaces/pinpoint/services/pinpoint-collector
+                      uid: de1574c6-83cd-11e6-8512-525400c583ad
+                    spec:
+                      clusterIP: 172.30.21.220
+                      portalIP: 172.30.21.220
+                      ports:
+                      - name: 9994-tcp
+                        port: 9994
+                        protocol: TCP
+                        targetPort: 9994
+                      selector:
+                        deploymentconfig: pinpoint-collector
+                      sessionAffinity: None
+                      type: ClusterIP
+                    status:
+                      loadBalancer: {}
