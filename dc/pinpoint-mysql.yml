@@ -11,7 +11,7 @@ metadata:
   selfLink: /oapi/v1/namespaces/pinpoint/deploymentconfigs/pinpoint-mysql
   uid: de0e5936-83cd-11e6-8512-525400c583ad
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     deploymentconfig: pinpoint-mysql
   strategy:
