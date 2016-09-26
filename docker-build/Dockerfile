@@ -7,7 +7,7 @@ ENV JAVA_7_HOME /usr/java/jdk1.7.0_79
 ENV JAVA_8_HOME /usr/java/jdk1.8.0_101
 ENV JAVA_HOME /usr/java/jdk1.7.0_79
 
-RUN yum install git wget tar hostname -y && yum clean all
+RUN yum install git wget tar hostname lsof -y && yum clean all
 
 RUN mkdir /root/jdk && cd /root/jdk && wget https://github.com/makentenza/ocp-pinpoint-apm/raw/master/jdk6/jdk-6u45-linux-amd64.rpm && \
 wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/7u79-b15/jdk-7u79-linux-x64.rpm && \
@@ -25,8 +25,8 @@ RUN git clone https://github.com/naver/pinpoint.git && \
 cd pinpoint && \
 mvn install -Dmaven.test.skip=true
 
-RUN /root/pinpoint/quickstart/bin/start-hbase.sh && \
-/root/pinpoint/quickstart/bin/init-hbase.sh && \
-/root/pinpoint/quickstart/bin/start-collector.sh && \
-/root/pinpoint/quickstart/bin/start-testapp.sh && \
-/root/pinpoint/quickstart/bin/start-web.sh
+#RUN /root/pinpoint/quickstart/bin/start-hbase.sh && \
+#/root/pinpoint/quickstart/bin/init-hbase.sh && \
+#/root/pinpoint/quickstart/bin/start-collector.sh && \
+#/root/pinpoint/quickstart/bin/start-testapp.sh && \
+#/root/pinpoint/quickstart/bin/start-web.sh
