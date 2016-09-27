@@ -21,7 +21,8 @@ rpm -i jdk-8u101-linux-x64.rpm --force
 RUN wget -O /etc/yum.repos.d/epel-apache-maven.repo http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo && \
 yum install apache-maven -y && yum clean all
 
-RUN git clone https://github.com/naver/pinpoint.git && \
+RUN cd /root && \
+git clone https://github.com/naver/pinpoint.git && \
 cd pinpoint && \
 mvn install -Dmaven.test.skip=true
 
