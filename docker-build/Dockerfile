@@ -31,11 +31,6 @@ echo "export JAVA_7_HOME=/usr/java/jdk1.7.0_79" >> /etc/profile.d/jdk.sh && \
 echo "export JAVA_8_HOME=/usr/java/jdk1.8.0_101" >> /etc/profile.d/jdk.sh && \
 echo "JAVA_HOME=/usr/java/jdk1.7.0_79" >> /etc/profile.d/jdk.sh
 
-#RUN echo "nohup /root/pinpoint/quickstart/bin/start-hbase.sh &> /dev/null &" >> /root/pinpoint/quickstart/bin/startup.sh && \
-#echo "nohup /root/pinpoint/quickstart/bin/init-hbase.sh &> /dev/null &" >> /root/pinpoint/quickstart/bin/startup.sh && \
-#echo "nohup /root/pinpoint/quickstart/bin/start-collector.sh &> /dev/null &" >> /root/pinpoint/quickstart/bin/startup.sh && \
-#echo "nohup /root/pinpoint/quickstart/bin/start-web.sh &> /dev/null &" >> /root/pinpoint/quickstart/bin/startup.sh && \
-#chmod +x /root/pinpoint/quickstart/bin/startup.sh
 
 RUN mkdir /root/logs && \
 echo "/root/pinpoint/quickstart/bin/start-hbase.sh &> /root/hbase.out &" > /root/pinpoint/quickstart/bin/startup.sh && \
@@ -48,13 +43,6 @@ RUN sed -i '/^CLOSE_WAIT_TIME/c\CLOSE_WAIT_TIME=1000' /root/pinpoint/quickstart/
 sed -i '/^CLOSE_WAIT_TIME/c\CLOSE_WAIT_TIME=1000' /root/pinpoint/quickstart/bin/start-web.sh && \
 sed -i '/^CLOSE_WAIT_TIME/c\CLOSE_WAIT_TIME=1000' /root/pinpoint/quickstart/bin/start-testapp.sh
 
-
-
-#RUN /root/pinpoint/quickstart/bin/start-hbase.sh && \
-#/root/pinpoint/quickstart/bin/init-hbase.sh && \
-#/root/pinpoint/quickstart/bin/start-collector.sh && \
-#/root/pinpoint/quickstart/bin/start-testapp.sh && \
-#/root/pinpoint/quickstart/bin/start-web.sh
 
 #EXPOSE 2181
 #EXPOSE 16010
