@@ -33,11 +33,14 @@ echo "JAVA_HOME=/usr/java/jdk1.7.0_79" >> /etc/profile.d/jdk.sh
 
 
 RUN mkdir /root/logs && \
-echo "/root/pinpoint/quickstart/bin/start-hbase.sh &> /root/hbase.out &" > /root/pinpoint/quickstart/bin/startup.sh && \
-echo "/root/pinpoint/quickstart/bin/init-hbase.sh &> /root/hbase-init.out &" >> /root/pinpoint/quickstart/bin/startup.sh && \
-echo "/root/pinpoint/quickstart/bin/start-collector.sh &> /root/collector.out &" >> /root/pinpoint/quickstart/bin/startup.sh && \
-echo "/root/pinpoint/quickstart/bin/start-web.sh &> /root/webui.out &" >> /root/pinpoint/quickstart/bin/startup.sh && \
-chmod +x /root/pinpoint/quickstart/bin/startup.sh
+echo "How to start app:" > /root/pinpoint/quickstart/bin/startup.sh && \
+echo "Run the following commands, one by one. Review each out log file and wait until finish to run next" >> /root/pinpoint/quickstart/bin/startup.sh && \
+echo "" >> /root/pinpoint/quickstart/bin/startup.sh && \
+echo "/root/pinpoint/quickstart/bin/start-hbase.sh &> /root/logs/hbase.out &" >> /root/pinpoint/quickstart/bin/startup.sh && \
+echo "/root/pinpoint/quickstart/bin/init-hbase.sh &> /root/logs/hbase-init.out &" >> /root/pinpoint/quickstart/bin/startup.sh && \
+echo "/root/pinpoint/quickstart/bin/start-collector.sh &> /root/logs/collector.out &" >> /root/pinpoint/quickstart/bin/startup.sh && \
+echo "/root/pinpoint/quickstart/bin/start-web.sh &> /root/logs/webui.out &" >> /root/pinpoint/quickstart/bin/startup.sh && \
+echo "cat /root/pinpoint/quickstart/bin/startup.sh > /etc/bashrc"
 
 RUN sed -i '/^CLOSE_WAIT_TIME/c\CLOSE_WAIT_TIME=1000' /root/pinpoint/quickstart/bin/start-collector.sh && \
 sed -i '/^CLOSE_WAIT_TIME/c\CLOSE_WAIT_TIME=1000' /root/pinpoint/quickstart/bin/start-web.sh && \
@@ -55,4 +58,4 @@ sed -i '/^CLOSE_WAIT_TIME/c\CLOSE_WAIT_TIME=1000' /root/pinpoint/quickstart/bin/
 
 EXPOSE 28080 28081
 
-CMD ["/root/pinpoint/quickstart/bin/startup.sh"]
+#ENTRYPOINT ["/root/pinpoint/quickstart/bin/startup.sh"]
