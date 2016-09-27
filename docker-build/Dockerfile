@@ -53,7 +53,6 @@ sed -i '/^CLOSE_WAIT_TIME/c\CLOSE_WAIT_TIME=1000' /root/pinpoint/quickstart/bin/
 #EXPOSE 9996/udp
 #EXPOSE 8080
 
-EXPOSE 28080
-EXPOSE 28081
+EXPOSE 28080 28081
 
 CMD ["/root/pinpoint/quickstart/bin/startup.sh"]
