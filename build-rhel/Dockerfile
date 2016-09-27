@@ -4,7 +4,7 @@ MAINTAINER Marcos Entenza
 ENV JAVA_6_HOME /usr/java/jdk1.6.0_45
 ENV JAVA_7_HOME /usr/java/jdk1.7.0_79
 ENV JAVA_8_HOME /usr/java/jdk1.8.0_101
-ENV JAVA_HOME /usr/java/jdk1.7.0_79
+ENV JAVA_HOME /usr/java/jdk1.8.0_101
 
 RUN yum install git wget tar hostname lsof net-tools -y && yum clean all
 
