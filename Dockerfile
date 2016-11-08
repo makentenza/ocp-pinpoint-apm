@@ -8,8 +8,6 @@ ENV JAVA_HOME /usr/java/jdk1.8.0_101
 
 RUN yum install git wget tar hostname lsof net-tools -y && yum clean all
 
-RUN mkdir /usr/local/src
-
 WORKDIR /usr/local/src
 
 COPY src/jdk-6u45-linux-amd64.rpm .
