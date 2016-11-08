@@ -24,7 +24,8 @@ yum install apache-maven -y && yum clean all
 WORKDIR /root
 
 COPY src/startup.sh .
-RUN chmod +x startup.sh
+RUN chmod +x startup.sh && \
+mkdir /root/logs
 
 RUN git clone https://github.com/naver/pinpoint.git
 
