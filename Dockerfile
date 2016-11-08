@@ -10,11 +10,10 @@ RUN yum install git wget tar hostname lsof net-tools -y && yum clean all
 
 WORKDIR /usr/local/src
 
-COPY src/jdk-6u45-linux-amd64.rpm . && \
-src/epel-release-7-8.noarch.rpm . && \
-src/epel-apache-maven.repo /etc/yum.repos.d/
+COPY src/* ./
 
-RUN wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/7u79-b15/jdk-7u79-linux-x64.rpm && \
+RUN cp epel-apache-maven.repo /etc/yum.repos.d/ && \
+wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/7u79-b15/jdk-7u79-linux-x64.rpm && \
 wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u101-b13/jdk-8u101-linux-x64.rpm && \
 rpm -i jdk-6u45-linux-amd64.rpm --force && \
 rpm -i jdk-7u79-linux-x64.rpm --force && \
