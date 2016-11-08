@@ -1,4 +1,4 @@
-FROM rhel7
+FROM centos:7
 MAINTAINER Marcos Entenza
 
 ENV JAVA_6_HOME /usr/java/jdk1.6.0_45
