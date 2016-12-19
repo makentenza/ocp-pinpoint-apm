@@ -23,9 +23,11 @@ yum install apache-maven -y && yum clean all
 
 WORKDIR /root
 
-COPY src/startup.sh .
+COPY src/howto-startup.sh .
+COPY src/pinpoint-start.sh .
+
 RUN chmod +x howto-startup.sh pinpoint-start.sh && \
-mkdir /root/logs \
+mkdir /root/logs && \
 echo "/root/howto-startup.sh" >> /etc/bashrc
 
 RUN git clone https://github.com/naver/pinpoint.git /pinpoint
@@ -39,11 +41,14 @@ sed -i '/^CLOSE_WAIT_TIME/c\CLOSE_WAIT_TIME=1000' /pinpoint/quickstart/bin/start
 
 WORKDIR quickstart/hbase
 ADD http://archive.apache.org/dist/hbase/hbase-1.0.3/hbase-1.0.3-bin.tar.gz ./
-RUN tar -xf hbase-1.0.3-bin.tar.gz
-RUN rm hbase-1.0.3-bin.tar.gz
-RUN ln -s hbase-1.0.3 hbase
-RUN cp ../conf/hbase/hbase-site.xml hbase-1.0.3/conf/
-RUN chmod +x hbase-1.0.3/bin/start-hbase.sh
+RUN tar -xf hbase-1.0.3-bin.tar.gz && \
+rm hbase-1.0.3-bin.tar.gz && \
+ln -s hbase-1.0.3 hbase && \
+cp ../conf/hbase/hbase-site.xml hbase-1.0.3/conf/ && \
+chmod +x hbase-1.0.3/bin/start-hbase.sh &&
+
+RUN /pinpoint/quickstart/bin/start-hbase.sh && \
+/pinpoint/quickstart/bin/init-hbase.sh
 
 EXPOSE 28080 28081
 
