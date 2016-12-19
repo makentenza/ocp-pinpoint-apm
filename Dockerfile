@@ -50,6 +50,9 @@ chmod +x hbase-1.0.3/bin/start-hbase.sh
 RUN /pinpoint/quickstart/bin/start-hbase.sh && \
 /pinpoint/quickstart/bin/init-hbase.sh
 
+RUN chgrp -R /pinpoint && \
+chmod 775 -R /pinpoint
+
 EXPOSE 28080 28081 28082
 
 WORKDIR /pinpoint
