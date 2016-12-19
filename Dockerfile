@@ -45,12 +45,12 @@ RUN tar -xf hbase-1.0.3-bin.tar.gz && \
 rm hbase-1.0.3-bin.tar.gz && \
 ln -s hbase-1.0.3 hbase && \
 cp ../conf/hbase/hbase-site.xml hbase-1.0.3/conf/ && \
-chmod +x hbase-1.0.3/bin/start-hbase.sh &&
+chmod +x hbase-1.0.3/bin/start-hbase.sh
 
 RUN /pinpoint/quickstart/bin/start-hbase.sh && \
 /pinpoint/quickstart/bin/init-hbase.sh
 
-EXPOSE 28080 28081
+EXPOSE 28080 28081 28082
 
 WORKDIR /pinpoint
 VOLUME [/pinpoint]
