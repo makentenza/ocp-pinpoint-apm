@@ -24,19 +24,30 @@ yum install apache-maven -y && yum clean all
 WORKDIR /root
 
 COPY src/startup.sh .
-RUN chmod +x startup.sh && \
-mkdir /root/logs
+RUN chmod +x howto-startup.sh pinpoint-start.sh && \
+mkdir /root/logs \
+echo "/root/howto-startup.sh" >> /etc/bashrc
 
-RUN git clone https://github.com/naver/pinpoint.git
+RUN git clone https://github.com/naver/pinpoint.git /pinpoint
+WORKDIR /pinpoint
+RUN git checkout tags/1.6.0
+RUN mvn install -Dmaven.test.skip=true -B
 
-WORKDIR /root/pinpoint
+RUN sed -i '/^CLOSE_WAIT_TIME/c\CLOSE_WAIT_TIME=1000' /pinpoint/quickstart/bin/start-collector.sh && \
+sed -i '/^CLOSE_WAIT_TIME/c\CLOSE_WAIT_TIME=1000' /pinpoint/quickstart/bin/start-web.sh && \
+sed -i '/^CLOSE_WAIT_TIME/c\CLOSE_WAIT_TIME=1000' /pinpoint/quickstart/bin/start-testapp.sh
 
-RUN mvn install -Dmaven.test.skip=true
-
-RUN sed -i '/^CLOSE_WAIT_TIME/c\CLOSE_WAIT_TIME=1000' /root/pinpoint/quickstart/bin/start-collector.sh && \
-sed -i '/^CLOSE_WAIT_TIME/c\CLOSE_WAIT_TIME=1000' /root/pinpoint/quickstart/bin/start-web.sh && \
-sed -i '/^CLOSE_WAIT_TIME/c\CLOSE_WAIT_TIME=1000' /root/pinpoint/quickstart/bin/start-testapp.sh
+WORKDIR quickstart/hbase
+ADD http://archive.apache.org/dist/hbase/hbase-1.0.3/hbase-1.0.3-bin.tar.gz ./
+RUN tar -xf hbase-1.0.3-bin.tar.gz
+RUN rm hbase-1.0.3-bin.tar.gz
+RUN ln -s hbase-1.0.3 hbase
+RUN cp ../conf/hbase/hbase-site.xml hbase-1.0.3/conf/
+RUN chmod +x hbase-1.0.3/bin/start-hbase.sh
 
 EXPOSE 28080 28081
 
-CMD ["sh","/root/startup.sh"]
+WORKDIR /pinpoint
+VOLUME [/pinpoint]
+
+CMD ["sh","/root/pinpoint-start.sh"]

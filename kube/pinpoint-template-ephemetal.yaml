@@ -1,0 +1,77 @@
+apiVersion: v1
+kind: Template
+labels:
+  template: pinpoint-apm-ephemeral
+message: Pinpoint APM Ephemeral
+metadata:
+  annotations:
+    description: Pinpoint APM Ephemeral
+    iconClass: icon-jenkins
+    tags: pinpoint
+  name: pinpoint-ephemeral-template
+  namespace: openshift
+objects:
+- apiVersion: v1
+  kind: ServiceAccount
+  metadata:
+    name: pinpoint
+- apiVersion: "v1"
+  kind: "ImageStream"
+  metadata:
+    name: "pinpoint"
+- apiVersion: "v1"
+  kind: "BuildConfig"
+  metadata:
+    name: "pinpoint"
+  spec:
+    triggers:
+      - type: ConfigChange
+      - type: ImageChange
+    source:
+      type: Git
+      git:
+        uri: https://github.com/makentenza/ocp-pinpoint-apm.git
+    strategy:
+      type: "Docker"
+      dockerStrategy:
+        from:
+          kind: "DockerImage"
+          name: "registry.access.redhat.com/rhel7.2"
+    output:
+      to:
+        kind: "ImageStreamTag"
+        name: "pinpoint-ephemeral:latest"
+- apiVersion: extensions/v1beta1
+  kind: DeploymentConfig
+  metadata:
+    name: "pinpoint-ephemeral"
+  spec:
+    replicas: 1
+    template:
+      metadata:
+        labels:
+          name: "pinpoint-ephemeral"
+      spec:
+        containers:
+        - name: "pinpoint"
+          image: "172.30.236.94:5000/pinpoint/pinpoint-ephemeral"
+          securityContext:
+            privileged: true
+        serviceAccount: pinpoint
+        serviceAccountName: pinpoint
+    replicas: 1
+    triggers:
+      - type: "ConfigChange"
+      - type: "ImageChange"
+        imageChangeParams:
+          automatic: true
+          containerNames:
+            - "pinpoint"
+          from:
+            kind: "ImageStreamTag"
+            name: "pinpoint-ephemeral:latest"
+    strategy:
+      type: "Rolling"
+    paused: false
+    revisionHistoryLimit: 2
+    minReadySeconds: 0
