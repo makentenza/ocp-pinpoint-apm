@@ -40,7 +40,7 @@ objects:
     output:
       to:
         kind: "ImageStreamTag"
-        name: "pinpoint-ephemeral:latest"
+        name: "pinpoint:latest"
 - apiVersion: "v1"
   kind: DeploymentConfig
   metadata:
