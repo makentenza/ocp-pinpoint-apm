@@ -54,7 +54,7 @@ objects:
       spec:
         containers:
         - name: "pinpoint"
-          image: "172.30.236.94:5000/pinpoint/pinpoint-ephemeral"
+          image: "172.30.32.89:5000/pinpoint/pinpoint-ephemeral"
           securityContext:
             privileged: true
         serviceAccount: pinpoint
