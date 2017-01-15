@@ -27,10 +27,10 @@ COPY src/howto-startup.sh .
 COPY src/pinpoint-start.sh .
 
 RUN chmod +x howto-startup.sh pinpoint-start.sh && \
-mkdir /root/logs && \
 echo "/root/howto-startup.sh" >> /etc/bashrc
 
-RUN git clone https://github.com/naver/pinpoint.git /pinpoint
+RUN git clone https://github.com/naver/pinpoint.git /pinpoint && \
+mkdir /pinpoint/logs
 WORKDIR /pinpoint
 RUN git checkout tags/1.6.0
 RUN mvn install -Dmaven.test.skip=true -B
