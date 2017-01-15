@@ -19,6 +19,62 @@ objects:
   kind: "ImageStream"
   metadata:
     name: "pinpoint"
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: null
+    name: pinpoint-apm
+  spec:
+    ports:
+    - name: pinpoint
+      nodePort: 0
+      port: 28080
+      protocol: TCP
+      targetPort: 28080
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: null
+    name: pinpoint-testapp
+  spec:
+    ports:
+    - name: testapp
+      nodePort: 0
+      port: 28081
+      protocol: TCP
+      targetPort: 28081
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Route
+  metadata:
+    creationTimestamp: null
+    name: pinpoint-apm
+  spec:
+    tls:
+      insecureEdgeTerminationPolicy: Redirect
+      termination: edge
+    to:
+      kind: Service
+      name: pinpoint-apm
+- apiVersion: v1
+  kind: Route
+  metadata:
+    creationTimestamp: null
+    name: pinpoint-testapp
+  spec:
+    tls:
+      insecureEdgeTerminationPolicy: Redirect
+      termination: edge
+    to:
+      kind: Service
+      name: pinpoint-testapp
 - apiVersion: "v1"
   kind: "BuildConfig"
   metadata:
