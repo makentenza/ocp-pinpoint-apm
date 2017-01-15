@@ -55,8 +55,6 @@ objects:
         containers:
         - name: "pinpoint"
           image: "172.30.32.89:5000/pinpoint/pinpoint-ephemeral"
-          securityContext:
-            privileged: true
         serviceAccount: pinpoint
         serviceAccountName: pinpoint
     replicas: 1
