@@ -27,7 +27,6 @@ objects:
   spec:
     ports:
     - name: pinpoint
-      nodePort: 0
       port: 28080
       protocol: TCP
       targetPort: 28080
@@ -43,10 +42,34 @@ objects:
   spec:
     ports:
     - name: testapp
-      nodePort: 0
       port: 28081
       protocol: TCP
       targetPort: 28081
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: null
+    name: pinpoint-collector
+  spec:
+    ports:
+    - name: pinpoint-tcp
+      port: 9994
+      protocol: TCP
+      targetPort: 9994
+    - name: pinpoint-udp1
+      port: 9995
+      protocol: UDP
+      targetPort: 9995
+    - name: pinpoint-udp12
+      port: 9996
+      protocol: UDP
+      targetPort: 9996
+    selector:
+      app: pinpoint-apm
     sessionAffinity: None
     type: ClusterIP
   status:
