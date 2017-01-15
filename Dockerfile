@@ -51,7 +51,8 @@ RUN /pinpoint/quickstart/bin/start-hbase.sh && \
 /pinpoint/quickstart/bin/init-hbase.sh
 
 RUN chgrp -R root /pinpoint && \
-chmod 775 -R /pinpoint
+chmod 775 -R /pinpoint && \
+chmod 775 -R /tmp
 
 EXPOSE 28080 28081 28082
 
