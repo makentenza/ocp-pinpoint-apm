@@ -54,7 +54,7 @@ objects:
       spec:
         containers:
         - name: "pinpoint"
-          image: "172.30.32.89:5000/pinpoint/pinpoint-ephemeral"
+          image: "172.30.32.89:5000/pinpoint-apm/pinpoint"
         serviceAccount: pinpoint
         serviceAccountName: pinpoint
     replicas: 1
@@ -67,7 +67,7 @@ objects:
             - "pinpoint"
           from:
             kind: "ImageStreamTag"
-            name: "pinpoint-ephemeral:latest"
+            name: "pinpoint:latest"
     strategy:
       type: "Rolling"
     paused: false
