@@ -30,6 +30,8 @@ objects:
       port: 28080
       protocol: TCP
       targetPort: 28080
+    selector:
+      name: pinpoint-ephemeral
     sessionAffinity: None
     type: ClusterIP
   status:
@@ -45,6 +47,8 @@ objects:
       port: 28081
       protocol: TCP
       targetPort: 28081
+    selector:
+      name: pinpoint-ephemeral
     sessionAffinity: None
     type: ClusterIP
   status:
@@ -69,7 +73,7 @@ objects:
       protocol: UDP
       targetPort: 9996
     selector:
-      app: pinpoint-apm
+      app: pinpoint-ephemeral
     sessionAffinity: None
     type: ClusterIP
   status:
