@@ -134,6 +134,8 @@ objects:
         containers:
         - name: "pinpoint"
           image: "172.30.32.89:5000/pinpoint-apm/pinpoint"
+        securityContext:
+          privileged: true  
         serviceAccount: pinpoint
         serviceAccountName: pinpoint
     replicas: 1
