@@ -31,7 +31,7 @@ objects:
       protocol: TCP
       targetPort: 28080
     selector:
-      name: pinpoint-ephemeral
+      name: pinpoint-apm
     sessionAffinity: None
     type: ClusterIP
   status:
@@ -48,7 +48,7 @@ objects:
       protocol: TCP
       targetPort: 28081
     selector:
-      name: pinpoint-ephemeral
+      name: pinpoint-apm
     sessionAffinity: None
     type: ClusterIP
   status:
@@ -73,7 +73,7 @@ objects:
       protocol: UDP
       targetPort: 9996
     selector:
-      app: pinpoint-ephemeral
+      app: pinpoint-apm
     sessionAffinity: None
     type: ClusterIP
   status:
@@ -82,7 +82,7 @@ objects:
   kind: Route
   metadata:
     creationTimestamp: null
-    name: pinpoint-apm
+    name: webinterface
   spec:
     tls:
       insecureEdgeTerminationPolicy: Redirect
@@ -94,7 +94,7 @@ objects:
   kind: Route
   metadata:
     creationTimestamp: null
-    name: pinpoint-testapp
+    name: testapp
   spec:
     tls:
       insecureEdgeTerminationPolicy: Redirect
@@ -127,13 +127,13 @@ objects:
 - apiVersion: "v1"
   kind: DeploymentConfig
   metadata:
-    name: "pinpoint-ephemeral"
+    name: "pinpoint-apm"
   spec:
     replicas: 1
     template:
       metadata:
         labels:
-          name: "pinpoint-ephemeral"
+          name: "pinpoint-apm"
       spec:
         containers:
         - name: "pinpoint"
