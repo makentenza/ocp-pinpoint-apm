@@ -4,15 +4,15 @@ The objetive for this repository is to deploy the Pinpoint APM project (https://
 
 1. Create the *pinpoint-apm* namespace on your
 
-      # oc new-project pinpoint-apm
+        # oc new-project pinpoint-apm
 
 2. Import the template from source
 
-      # oc create -f https://raw.githubusercontent.com/makentenza/ocp-pinpoint-apm/master/kube/pinpoint-template-ephemetal.yaml
+        # oc create -f https://raw.githubusercontent.com/makentenza/ocp-pinpoint-apm/master/kube/pinpoint-template-ephemetal.yaml
 
 3. Create the new application from the imported template
 
-      # oc new-app pinpoint-ephemeral-template
+        # oc new-app pinpoint-ephemeral-template
 
       --> Deploying template "pinpoint-ephemeral-template" in project "openshift"
 
@@ -22,7 +22,7 @@ The objetive for this repository is to deploy the Pinpoint APM project (https://
 
            Pinpoint APM Ephemeral
 
-      --> Creating resources with label app=pinpoint-ephemeral-template ...
+      --> Creating resources with label app=pinpoint-ephemeral-template
 
           serviceaccount "pinpoint" created
           imagestream "pinpoint" created
@@ -39,6 +39,6 @@ The objetive for this repository is to deploy the Pinpoint APM project (https://
           Build scheduled, use 'oc logs -f bc/pinpoint' to track its progress.
           Run 'oc status' to view your app.
 
-  4. Add the pinpoint service account to anyuid Security Context Constraint so root user could start processes inside de image
+4. Add the pinpoint service account to anyuid Security Context Constraint so root user could start processes inside de image
 
         # oadm policy add-scc-to-user anyuid system:serviceaccount:pinpoint-apm:pinpoint
