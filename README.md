@@ -12,7 +12,7 @@ The objetive for this repository is to deploy the Pinpoint APM project (https://
 
 3. Create the new application from the imported template
 
-    # oc new-app pinpoint-ephemeral-template
+      # oc new-app pinpoint-ephemeral-template
 
       --> Deploying template "pinpoint-ephemeral-template" in project "openshift"
 
