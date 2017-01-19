@@ -49,3 +49,22 @@ The reulting container will automatically start HBASE, Collector and Web UI serv
         # /pinpoint/quickstart/bin/start-testapp.sh &> /pinpoint/logs/testapp.out &
 
 #### ** Note that the Build process could take more than 30 minutes depending on your hardware and internet connection. A public image will be available in Docker Hub tu directly use it
+
+
+## Overview
+
+* **ServerMap** - Understand the topology of any distributed systems by visualizing how their components are interconnected. Clicking on a node reveals details about the component, such as its current status, and transaction count.
+
+![Server Map](img/ss_server-map.png)
+
+* **CallStack** - Gain code-level visibility to every transaction in a distributed environment, identifying bottlenecks and points of failure in a single view.
+
+![Call Stack](img/ss_call-stack.png)
+
+* **Inspector** - View additional details on the application such as CPU usage, Memory/Garbage Collection, TPS, and JVM arguments.
+
+![Inspector](img/ss_inspector.png)
+
+## Architecture
+
+![Pinpoint Architecture](img/pinpoint-architecture.png)
