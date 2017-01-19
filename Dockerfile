@@ -1,5 +1,5 @@
 FROM centos:7
-MAINTAINER Marcos Entenza
+MAINTAINER Marcos Entenza <mak@redhat.com>
 
 LABEL io.k8s.description="Platform for running Pinpoint Application Performance Monitoring" \
       io.k8s.display-name="Pinpoint APM" \
