@@ -2,7 +2,7 @@
 
 The objetive for this repository is to deploy the Pinpoint APM project (https://github.com/naver/pinpoint) on top of Openshift Container Platform.
 
-1. Create the *pinpoint-apm* namespace on your
+1. Create the *pinpoint-apm* namespace on your Cluster
 
         # oc new-project pinpoint-apm
 
@@ -47,3 +47,5 @@ The reulting container will automatically start HBASE, Collector and Web UI serv
 
         # oc rsh {Pod}
         # /pinpoint/quickstart/bin/start-testapp.sh &> /pinpoint/logs/testapp.out &
+
+#### ** Note that the Build process could take more than 30 minutes depending on your hardware and internet connection. A public image will be available in Docker Hub tu directly use it
