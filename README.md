@@ -3,7 +3,9 @@
 The objetive for this repository is to deploy the Pinpoint APM project (https://github.com/naver/pinpoint) on top of Openshift Container Platform.
 
 1. Create the *pinpoint-apm* namespace on your
-    '<#oc new-project pinpoint-apm>'
+
+      #oc new-project pinpoint-apm
+
   oc create -f https://raw.githubusercontent.com/makentenza/ocp-pinpoint-apm/master/kube/pinpoint-template-ephemetal.yaml
 oc new-app pinpoint-ephemeral-template
 
