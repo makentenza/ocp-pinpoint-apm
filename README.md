@@ -23,6 +23,7 @@ The objetive for this repository is to deploy the Pinpoint APM project (https://
            Pinpoint APM Ephemeral
 
       --> Creating resources with label app=pinpoint-ephemeral-template ...
+
           serviceaccount "pinpoint" created
           imagestream "pinpoint" created
           service "pinpoint-apm" created
@@ -32,12 +33,12 @@ The objetive for this repository is to deploy the Pinpoint APM project (https://
           route "testapp" created
           buildconfig "pinpoint" created
           deploymentconfig "pinpoint-apm" created
+
       --> Success
+
           Build scheduled, use 'oc logs -f bc/pinpoint' to track its progress.
           Run 'oc status' to view your app.
 
+  4. Add the pinpoint service account to anyuid Security Context Constraint so root user could start processes inside de image
 
-oadm policy add-scc-to-user anyuid system:serviceaccount:pinpoint-apm:pinpoint
-
-
-Chequear si reescribir las rutas para que vayan por http
+      # oadm policy add-scc-to-user anyuid system:serviceaccount:pinpoint-apm:pinpoint
