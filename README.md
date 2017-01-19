@@ -41,4 +41,4 @@ The objetive for this repository is to deploy the Pinpoint APM project (https://
 
   4. Add the pinpoint service account to anyuid Security Context Constraint so root user could start processes inside de image
 
-      # oadm policy add-scc-to-user anyuid system:serviceaccount:pinpoint-apm:pinpoint
+        # oadm policy add-scc-to-user anyuid system:serviceaccount:pinpoint-apm:pinpoint
