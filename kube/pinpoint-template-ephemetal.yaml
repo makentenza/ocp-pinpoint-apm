@@ -81,24 +81,16 @@ objects:
 - apiVersion: v1
   kind: Route
   metadata:
-    creationTimestamp: null
     name: webinterface
   spec:
-    tls:
-      insecureEdgeTerminationPolicy: Redirect
-      termination: edge
     to:
       kind: Service
       name: pinpoint-apm
 - apiVersion: v1
   kind: Route
   metadata:
-    creationTimestamp: null
     name: testapp
   spec:
-    tls:
-      insecureEdgeTerminationPolicy: Redirect
-      termination: edge
     to:
       kind: Service
       name: pinpoint-testapp
