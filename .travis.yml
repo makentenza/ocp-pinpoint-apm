@@ -1,0 +1,18 @@
+sudo: required
+dist: trusty
+services:
+ - docker
+addons:
+  apt:
+    packages:
+    - nodejs
+    - npm
+language: java
+jdk:
+  - oraclejdk8
+install:
+  - npm install -g dockerfile_lint
+before_script:
+  - dockerfile_lint  -f Dockerfile
+script:
+  - docker build --tag makentenza/ocp-pinpoint-apm:latest .
