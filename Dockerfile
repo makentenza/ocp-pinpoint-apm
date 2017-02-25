@@ -32,15 +32,15 @@ RUN chmod +x /root/howto-startup.sh /root/pinpoint-start.sh && \
 echo "/root/howto-startup.sh" >> /etc/bashrc
 
 RUN git clone https://github.com/naver/pinpoint.git /pinpoint && \
-mkdir /pinpoint/logs
+    mkdir /pinpoint/logs
 WORKDIR /pinpoint
 RUN git checkout tags/1.6.0
 RUN mvn install -Dmaven.test.skip=true -B
 
-# Comment out the following lines in case you get timeout errors while starting the stack
-#RUN sed -i '/^CLOSE_WAIT_TIME/c\CLOSE_WAIT_TIME=1000' /pinpoint/quickstart/bin/start-collector.sh && \
-#sed -i '/^CLOSE_WAIT_TIME/c\CLOSE_WAIT_TIME=1000' /pinpoint/quickstart/bin/start-web.sh && \
-#sed -i '/^CLOSE_WAIT_TIME/c\CLOSE_WAIT_TIME=1000' /pinpoint/quickstart/bin/start-testapp.sh
+
+RUN sed -i '/^CLOSE_WAIT_TIME/c\CLOSE_WAIT_TIME=1000' /pinpoint/quickstart/bin/start-collector.sh && \
+    sed -i '/^CLOSE_WAIT_TIME/c\CLOSE_WAIT_TIME=1000' /pinpoint/quickstart/bin/start-web.sh && \
+    sed -i '/^CLOSE_WAIT_TIME/c\CLOSE_WAIT_TIME=1000' /pinpoint/quickstart/bin/start-testapp.sh
 
 WORKDIR quickstart/hbase
 ADD http://archive.apache.org/dist/hbase/hbase-1.0.3/hbase-1.0.3-bin.tar.gz ./
