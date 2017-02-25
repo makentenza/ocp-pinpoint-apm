@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 # For using as entrypoint command once Hbase is initialized - This is done during the Docker build process.
 
