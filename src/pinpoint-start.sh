@@ -16,7 +16,13 @@ while [ $COUNTER -lt 100 ]; do
 	sleep 1
 done
 
-/pinpoint/quickstart/bin/start-web.sh &> /pinpoint/logs/webui.out
+exec /pinpoint/quickstart/bin/start-web.sh &> /pinpoint/logs/webui.out &
+WEBPID=$!
+
+trap shutdown SIGTERM SIGHUP SIGINT
+wait $WEBPID
+
+shutdown
 
 # Comment out the following line if you want Test App to automatically be started
 

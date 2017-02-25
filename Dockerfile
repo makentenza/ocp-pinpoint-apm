@@ -65,4 +65,4 @@ EXPOSE 28080 28081 28082
 WORKDIR /pinpoint
 VOLUME [/pinpoint]
 
-CMD ["sh","exec /root/pinpoint-start.sh"]
+CMD ["sh","/root/pinpoint-start.sh"]
